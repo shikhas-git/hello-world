@@ -18,4 +18,4 @@ jobs:
       - run:
           name: "echo an environment variable that is part of out project"
           command: |
-            echo $NAME_ENV_VAR
+            echo $MY_ENV_VAR
