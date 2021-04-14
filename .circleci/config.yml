@@ -1,21 +1,31 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
-# Use a package of configuration called an orb.
-# Orchestrate or schedule a set of jobs
-workflows:
-  # Name the workflow "welcome"
-  test-env-vars:
-    # Run the welcome/run job in its own container
-    jobs:
-      - build
 
 jobs:
-  build:
+  save_hello_world_output:
+    #output to file called output.txt
     docker:
-      - image: cimg/base:2020.01
+      - image: circleci/node:13.8.0
     steps:
-      - checkout
-      - run:
-          name: "echo an environment variable that is part of out project"
-          command: |
-            echo $MY_ENV_VAR
+      - run: echo "hello world" > ~/output.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            -output.txt
+
+  print_output_file:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - attach workspace:
+          at: ~/
+      - run: cat ~/output.txt
+
+workflows:
+  # Name the workflow "test-workspace"
+  test-workspace:
+    jobs:
+      - save_hello_world_output
+      - print_output_file:
+          requires:
+            - save_hello_world_output
