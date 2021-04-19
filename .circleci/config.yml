@@ -13,7 +13,8 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
-            apk add --latest ssh
+            apk update
+            apk add ssh
       - run:
           name: Update known hosts
           command: ssh-keyscan -H ec2-18-236-218-52.us-west-2.compute.amazonaws.com >> ~/.ssh/known_hosts
