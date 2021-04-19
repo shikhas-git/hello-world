@@ -1,2 +1,2 @@
 [all]
-18.236.218.52
+18.236.218.52 ansible_user=ubuntu
